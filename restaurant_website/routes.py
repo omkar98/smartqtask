@@ -1,8 +1,8 @@
 import os
 from os.path import join, dirname, realpath
 from flask import render_template, url_for, redirect, flash, Markup, abort, request, jsonify
-from restaurant_website import app, db, mail, bcrypt
-from sqlalchemy import asc, desc, update
+from restaurant_website import app
+# from sqlalchemy import asc, desc, update
 import csv
 
 @app.route("/")
