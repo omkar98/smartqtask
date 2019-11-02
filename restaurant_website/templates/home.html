@@ -1,0 +1,49 @@
+{%extends 'layout.html'%}
+    {%block content%}
+
+    <div class="container-fluid">
+
+      <div class="row">
+
+        <div class="col-md-3">
+          <div class="filters">
+            <p style="text-align:center">Filters</p>
+              <form action="/get_restaurants" method="post">
+                <table id="dishes" class="table table-striped table-bordered" style="width:100%">
+                {% for cuisine in Cuisines%}
+                <tbody>
+                <tr>
+                  <td>
+                <div class="pretty p-icon p-round p-pulse">
+                    <input type="checkbox" name="{{cuisine}}" />
+                    <div class="state p-success">
+                        <i class="icon mdi mdi-check"></i>
+                        <label>{{cuisine}}</label>
+                    </div>
+                </div>
+                </td>
+                {%endfor%}
+                </tbody>
+                </table>
+                 <input class="btn btn-success" type="submit" value="Filter">
+              </form>
+          </div>
+        </div>
+
+        <div class="col-md-9">
+            {{data|length}} Restaurants Found<br/>
+          <div class="row">
+            {% for i in data%}
+              <div class="col-md-4">
+                <div class = "restaurant-card">
+                  <img src = "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/in2gp0fqh5hrrocnocgb" width = "100%"/>
+                  <h6 class = "cui-title">{{i['Restaurant Name']}}</h6>
+                  <p class = "cui-p"><span class = "cuisine-tag">{{i['Cuisines']}}</span></p>
+                </div>
+              </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+    {%endblock content%}

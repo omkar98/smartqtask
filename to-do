@@ -1,0 +1,5 @@
+Basic Requirements
+  1) Read Data from CSV Files provided -> https://www.youtube.com/watch?v=q5uM4VKywbA
+  2) Display details(listings) into html page
+  3) Filter restaurants based on cuisines
+  4) Count all the fetched queries
