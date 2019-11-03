@@ -32,17 +32,22 @@ def home():
             required_cuisine=[]
             for i in request.args.get('data').split(" "):
                 if not i is '':
-                    required_cuisine.append(i)
+                    required_cuisine.append(i.lower())
             for line in csv_reader:
                 # print(line['Cuisines'].split(", "))
                 # any_in = lambda a, b: any(i in required_cuisine for i in  line['Cuisines'].split(", ")
-                check =  any(item in required_cuisine for item in line['Cuisines'].split(", "))
+                check =  any(item in required_cuisine for item in line['Cuisines'].lower().split(", "))
+                check1= any(item in required_cuisine for item in line['Restaurant Name'].lower().split(" "))
+                # if required_cuisine in line['Restaurant Name']:
+                #     check1=1
                 print(check)
-                if check:
+                if check or check1:
                     print("We have entered")
                     # print(line['Cuisines'])
                     required_res.append(line)
+            Cuisines.sort()
             return render_template('home.html', data=required_res, Cuisines=Cuisines)
+        Cuisines.sort()
         return render_template('home.html', data=list(csv_reader), Cuisines=Cuisines)
 
 @app.route("/get_restaurants", methods=['GET', 'POST'])
@@ -54,6 +59,18 @@ def get_restaurants():
             required_cuisine+=" "+each_cuisine
         print(required_cuisine)
         return redirect(url_for('home', data=required_cuisine))
+        # return render_template('home.html', data=csv_reader, Cuisines=jsonify(required_cuisine))
+    return "Bad Request"
+
+@app.route("/get_name", methods=['GET', 'POST'])
+def get_name():
+    required_cuisine=""
+    if request.method == 'POST':
+        print(request.form)
+        for each_cuisine in request.form:
+            required_cuisine+=" "+each_cuisine
+        print(required_cuisine)
+        return redirect(url_for('home', data=request.form.get('res_name')))
         # return render_template('home.html', data=csv_reader, Cuisines=jsonify(required_cuisine))
     return "Bad Request"
     # return render_template('home.html')

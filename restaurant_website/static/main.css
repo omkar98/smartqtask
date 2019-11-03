@@ -1,7 +1,15 @@
+html, body {
+  height: 100%;
+}
+
 body{
 background: #F0F4F8;
 font-family: 'Manjari', sans-serif !important;
-
+  display: flex;
+  flex-direction: column;
+}
+.container-fluid{
+        flex: 1 0 auto;
 }
 .badge{
   padding: 5px;
@@ -48,6 +56,14 @@ font-family: 'Manjari', sans-serif !important;
 .filters{
   background: white;
   padding: 10px;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
+
+.scroll_filter{
+    height:150px;
+    overflow-y: scroll;
 }
 
 .restaurant-card{
@@ -154,6 +170,7 @@ color: white;
   bottom: 0;
   width: 100%;
   position: inherit;
+  flex-shrink: 0;
 }
 
 

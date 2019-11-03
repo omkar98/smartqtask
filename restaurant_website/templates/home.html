@@ -2,18 +2,19 @@
     {%block content%}
 
     <div class="container-fluid">
-
       <div class="row">
-
         <div class="col-md-3">
           <div class="filters">
-            <p style="text-align:center">Filters</p>
+            <h5 style="text-align:center"><i class="fa fa-filter"></i> Filters</h5><hr>
+            Select Cuisines:
               <form action="/get_restaurants" method="post">
-                <table id="dishes" class="table table-striped table-bordered" style="width:100%">
+                <div class="scroll_filter">
+                    <div class="container">
+                <!--<table id="dishes" class="table table-striped table-bordered" style="width:100%">-->
                 {% for cuisine in Cuisines%}
-                <tbody>
-                <tr>
-                  <td>
+                <!--<tbody>-->
+                <!--<td>-->
+
                 <div class="pretty p-icon p-round p-pulse">
                     <input type="checkbox" name="{{cuisine}}" />
                     <div class="state p-success">
@@ -21,29 +22,61 @@
                         <label>{{cuisine}}</label>
                     </div>
                 </div>
-                </td>
+
+                <br/>
+                <!--</td>-->
                 {%endfor%}
-                </tbody>
-                </table>
-                 <input class="btn btn-success" type="submit" value="Filter">
+                <!--</tbody>-->
+                <!--</table>-->
+                </div>
+                </div><br/>
+                <input class="btn btn-success" type="submit" value="Filter">
               </form>
+
           </div>
         </div>
 
         <div class="col-md-9">
-            {{data|length}} Restaurants Found<br/>
+            {% if data|length == 0%}
+                <h2 style="background: white; padding: 10px;">Sorry! No Restaurants Found.</h2><br/>
+                <small><a href="/home">Click Here</a> to check other restaurants.</small>
+            {%else%}
+            <span style="background: white; padding: 10px;">{{data|length}} Restaurant(s) Found.</span>
+            <small><a href="/home"> Click Here</a> to check other restaurants.</small>
+
+            {%endif%}
           <div class="row">
-            {% for i in data%}
+            {%- for i in data -%}
               <div class="col-md-4">
                 <div class = "restaurant-card">
                   <img src = "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/in2gp0fqh5hrrocnocgb" width = "100%"/>
-                  <h6 class = "cui-title">{{i['Restaurant Name']}}</h6>
-                  <p class = "cui-p"><span class = "cuisine-tag">{{i['Cuisines']}}</span></p>
+                  <h6 class = "cui-title" style="text-align:center"><b>{{i['Restaurant Name']}}</b></h6>
+                  <p class = "cui-p"><span class = "cuisine-tag"><i class="fas fa-pepper-hot"></i> {{i['Cuisines']}}</span></p><hr>
+                  {%if i['Rating color'] == "Dark Green"%}
+                    <span class="badge badge-light" style="border:1px solid darkgreen">{{i['Aggregate rating']}}</span>
+                    <span class="badge badge-light" style="border:1px solid darkgreen">{{i['Rating text']}}</span>
+                  {% else %}
+                    <span class="badge badge-light" style="border: 1px solid {{i['Rating color']}}">{{i['Aggregate rating']}}</span>
+                    <span class="badge badge-light" style="border: 1px solid {{i['Rating color']}}">{{i['Rating text']}}</span>
+                  {% endif %}
+                  <span class="badge badge-light"><i class="fa fa-thumbs-up"></i> {{i['Votes']}}</span>
+                  {% if i['Has Table booking'] == "Yes"%}
+                    <span class="badge badge-light" data-toggle="tooltip" data-placement="bottom" title="Table Booking Available"><i class="fa fa-bookmark" style="color: green"></i></span>
+                  {%else%}
+                    <span class="badge badge-light" data-toggle="tooltip" data-placement="bottom" title="Table Booking Not Available"><i class="fa fa-bookmark" style="color: red"></i></span>
+                  {%endif%}
+                  {% if i['Has Online delivery'] == "Yes"%}
+                    <span class="badge badge-light" data-toggle="tooltip" data-placement="bottom" title="Has Online Delivery"><i class="fa fa-mouse-pointer" style="color: green"></i></span>
+                  {%else%}
+                    <span class="badge badge-light" data-toggle="tooltip" data-placement="bottom" title="No Online Delivery"><i class="fa fa-mouse-pointer" style="color: red"></i></span>
+                  {%endif%}
                 </div>
               </div>
             {%endfor%}
           </div>
+
         </div>
       </div>
     </div>
+
     {%endblock content%}
